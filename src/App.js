@@ -1,16 +1,16 @@
-
+import { React, useState } from 'react'
 import './App.css';
 import Header from './components/Header'
 
 function App() {
-  let showDecks = false;
-  const goToDecks = () => showDecks = true
-
-  const goToCards = () => showDecks = false
+  let [showDecks, updateTab = (isDecks) => {
+    showDecks = isDecks
+  }] = useState(false);
 
   return (
     <div className="mainPage">
-      <Header title="SW-API Deck Builder" goToDecks={goToDecks} goToCards={goToCards} />
+      <Header title="SW-API Deck Builder" updateTab={updateTab} />
+      <h1>We are in the {showDecks ? 'Decks' : 'Cards'}</h1>
     </div>
   );
 }
