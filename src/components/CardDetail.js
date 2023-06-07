@@ -6,9 +6,9 @@ import female from '../assets/icons/female.svg';
 import planet from '../assets/icons/planet.svg';
 import vehicles from '../assets/icons/vehicles.svg';
 import starships from '../assets/icons/starships.svg';
-const CardSummary = ({ data }) => {
+const CardDetail = ({ data }) => {
     return (
-        <div className='card-outline-summary'>
+        <div className='card-outline-detail'>
             <div className='name-frame'>
                 <div style={padding}>
                     <div style={addCardSection}>
@@ -23,39 +23,46 @@ const CardSummary = ({ data }) => {
 
             <div className='card-details-group'>
                 <div>
-                    <div className='card-title-box'>
+                    <div className='card-title-box-large'>
                         <div className='name-image'>
                             <img src={data.gender === 'm' ? male : female} />
                             &nbsp;<p className='summary-text-2'>19BBY</p>
                         </div>
                         <p className='summary-text-2'>{data.species}</p>
                     </div>
-                    <hr className='card-line' />
+                    <hr className='card-line-large' />
                 </div>
                 <br />
-                <div className='card-summary-box'>
+                <div className='card-details-box'>
                     <div className='name-image'>
                         <img src={planet} />
                         &nbsp;<p className='summary-text'>HOMEWORLD</p>
                     </div>
                     <p className='summary-text-2'>{data.homeworld}</p>
                 </div>
-                <p className='space-between-10' />
-                <div className='card-summary-box'>
-                    <div className='name-image'>
-                        <img src={vehicles} />
-                        &nbsp;<p className='summary-text'>VEHICLES</p>
+                {data.vehicles.map((vehicle) => (
+                    <div key={vehicle.id}>
+                        <p className='space-between-10' />
+                        <div className='card-details-box'>
+                            <div className='name-image'>
+                                <img src={vehicles} />
+                                &nbsp;<p className='summary-text'>VEHICLE</p>
+                            </div>
+                            <p className='summary-text-2'>{vehicle.name}</p>
+                        </div>
                     </div>
-                    <p className='summary-text-2'>{data.vehicles.length}</p>
-                </div>
-                <p className='space-between-10' />
-                <div className='card-summary-box'>
-                    <div className='name-image'>
-                        <img src={starships} />
-                        &nbsp;<p className='summary-text'>STARSHIPS</p>
+                ))}
+                {data.starships.map((starship) => (
+                    <div key={starship.id}><p className='space-between-10' />
+                        <div className='card-details-box'>
+                            <div className='name-image'>
+                                <img src={starships} />
+                                &nbsp;<p className='summary-text'>STARSHIP</p>
+                            </div>
+                            <p className='summary-text-2'>{starship.name}</p>
+                        </div>
                     </div>
-                    <p className='summary-text-2'>{data.starships.length}</p>
-                </div>
+                ))}
             </div>
         </div >
     )
@@ -70,4 +77,4 @@ const addCardSection = {
     justifyContent: "space-between",
 }
 
-export default CardSummary
+export default CardDetail
