@@ -1,4 +1,7 @@
 body {
+  padding-top: 50px;
+  padding-left: 150px;
+  padding-right: 150px;
   background-color: #E5E5E5;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -87,22 +90,23 @@ body {
 
 .nametag {
   display: inline-flex;
+  box-shadow: none;
   /* flex-direction: row; */
   /* background: #000; */
   color: #3B3B3B;
   background: #E5E5E5;
   /* color: #fff; */
-  border-width: 1px;
+  border-radius: 4px;
   border-color: #B8B8B8;
   padding: 5px 10px;
   margin: 5px;
-  border-radius: 5px;
   cursor: pointer;
   text-decoration: none;
   font-size: 15px;
   font-family: inherit;
   text-align: center;
 }
+
 
 .btn {
   display: inline-block;
@@ -188,7 +192,9 @@ footer {
   text-align: center;
 }
 
-/*.card {
+/*Card layouts*/
+
+.card-outline {
   width: 216px;
   height: 282px;
 
@@ -199,4 +205,92 @@ footer {
   order: 0;
   flex-grow: 0;
 }
-*/
+
+.name-frame {
+  /* position: absolute; */
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  height: 98px;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  background: #969696;
+}
+
+.card-name {
+  width: 64px;
+  height: 24px;
+  left: 16px;
+  bottom: 10px;
+  color: white;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 24px;
+}
+
+.card-line {
+  width: 184px;
+  height: 2px;
+  background: #D4D4D4;
+  border-radius: 2px;
+  flex: none;
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
+}
+
+.card-details-group {
+  align-items: center;
+  padding-left: 15px;
+}
+
+.card-details-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  gap: 10px;
+  width: 184px;
+  height: 32px;
+  background: #EDEDED;
+  border-radius: 4px;
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
+}
+
+.card-title-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  width: 184px;
+  height: 25px;
+  flex: none;
+}
+
+.name-image {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.summary-text {
+  font-size: 10px;
+}
+
+.summary-text-2 {
+  font-size: 12px;
+}
+
+.space-between-10 {
+  height: 10px;
+}
+
+.space-between-15 {
+  height: 15px;
+}
