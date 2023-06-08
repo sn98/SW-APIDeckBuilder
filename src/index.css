@@ -22,11 +22,6 @@ code {
   padding: 0;
 }
 
-body {
-  font-family: 'Poppins', sans-serif;
-}
-
-
 .container {
   max-width: 500px;
   margin: 30px auto;
@@ -337,19 +332,4 @@ footer {
 
 .space-between-15 {
   height: 15px;
-}
-
-.pagination {
-  margin: 1rem auto;
-  list-style: none;
-  display: flex;
-  justify-content: space-evenly;
-  width: 50%;
-}
-
-.active {
-  border: 1px solid black;
-  border-radius: 10%;
-  padding: 0 3px;
-  outline: none;
 }
