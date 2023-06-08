@@ -8,56 +8,58 @@ import vehicles from '../assets/icons/vehicles.svg';
 import starships from '../assets/icons/starships.svg';
 const CardSummary = ({ data }) => {
     return (
-        <div className='card-outline-summary'>
-            <div className='name-frame'>
-                <div style={padding}>
-                    <div style={addCardSection}>
-                        <img src={card} />
-                        <img src={addbutton} />
-                    </div>
-                    <p className='space-between-15' />
-                    <p className='card-name'>{data.name}</p>
-                </div>
-            </div>
-            <p className='space-between-10' />
-
-            <div className='card-details-group'>
-                <div>
-                    <div className='card-title-box'>
-                        <div className='name-image'>
-                            <img src={data.gender === 'm' ? male : female} />
-                            &nbsp;<p className='summary-text-2'>19BBY</p>
+        <div style={padding}>
+            <div className='card-outline-summary'>
+                <div className='name-frame'>
+                    <div style={padding}>
+                        <div style={addCardSection}>
+                            <img src={card} />
+                            <img src={addbutton} />
                         </div>
-                        <p className='summary-text-2'>{data.species}</p>
+                        <p className='space-between-15' />
+                        <p className='card-name'>{data.name}</p>
                     </div>
-                    <hr className='card-line' />
-                </div>
-                <br />
-                <div className='card-summary-box'>
-                    <div className='name-image'>
-                        <img src={planet} />
-                        &nbsp;<p className='summary-text'>HOMEWORLD</p>
-                    </div>
-                    <p className='summary-text-2'>{data.homeworld}</p>
                 </div>
                 <p className='space-between-10' />
-                <div className='card-summary-box'>
-                    <div className='name-image'>
-                        <img src={vehicles} />
-                        &nbsp;<p className='summary-text'>VEHICLES</p>
+
+                <div className='card-details-group'>
+                    <div>
+                        <div className='card-title-box'>
+                            <div className='name-image'>
+                                <img src={data.gender === 'm' ? male : female} />
+                                &nbsp;<p className='summary-text-2'>19BBY</p>
+                            </div>
+                            <p className='summary-text-2'>{data.species}</p>
+                        </div>
+                        <hr className='card-line' />
                     </div>
-                    <p className='summary-text-2'>{data.vehicles.length}</p>
-                </div>
-                <p className='space-between-10' />
-                <div className='card-summary-box'>
-                    <div className='name-image'>
-                        <img src={starships} />
-                        &nbsp;<p className='summary-text'>STARSHIPS</p>
+                    <br />
+                    <div className='card-summary-box'>
+                        <div className='name-image'>
+                            <img src={planet} />
+                            &nbsp;<p className='summary-text'>HOMEWORLD</p>
+                        </div>
+                        <p className='summary-text-2'>{data.homeworld}</p>
                     </div>
-                    <p className='summary-text-2'>{data.starships.length}</p>
+                    <p className='space-between-10' />
+                    <div className='card-summary-box'>
+                        <div className='name-image'>
+                            <img src={vehicles} />
+                            &nbsp;<p className='summary-text'>VEHICLES</p>
+                        </div>
+                        <p className='summary-text-2'>{data.vehicles.length}</p>
+                    </div>
+                    <p className='space-between-10' />
+                    <div className='card-summary-box'>
+                        <div className='name-image'>
+                            <img src={starships} />
+                            &nbsp;<p className='summary-text'>STARSHIPS</p>
+                        </div>
+                        <p className='summary-text-2'>{data.starships.length}</p>
+                    </div>
                 </div>
             </div>
-        </div >
+        </div>
     )
 }
 
