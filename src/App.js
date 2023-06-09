@@ -1,15 +1,26 @@
 import { React, useState } from 'react';
-import { Grid, Pagination } from '@mui/material';
+import { Grid, Pagination, Stack, Link, Typography, Breadcrumbs } from '@mui/material';
 import usePagination from "./components/Pagination";
 import './App.css';
 import Header from './components/Header';
 import CardSummary from './components/CardSummary';
 import CardDetail from './components/CardDetail';
+import DeckSearch from './components/DeckSearch';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import CardSearch from './components/CardSearch';
+
+function handleClick() {
+  console.info('You clicked a breadcrumb.');
+}
 
 function App() {
   let [showDecks, updateTab = (isDecks) => {
     showDecks = isDecks
   }] = useState(false);
+  let [filter, changefilter = (change) => {
+    console.log('this is the new filter', change)
+    filter = change
+  }] = useState('az');
 
   const cards = ([
     {
@@ -56,20 +67,30 @@ function App() {
   };
 
   return (
-
     <div className="mainPage">
       <Header title="SW-API Deck Builder" updateTab={updateTab} showDecks={showDecks} />
-      <h1>We are in the {showDecks ? 'Decks' : 'Cards'}</h1>
+      <br />
+      <Stack spacing={2}>
+        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+          <Typography key="3" color="text.primary">
+            {showDecks ? 'All Decks' : 'All Cards'}
+          </Typography>,
+          <Link underline="hover" key="1" color="inherit" href="/" onClick={handleClick}>
+            {showDecks ? 'Select a deck' : 'Select a card'}
+          </Link>,
+        </Breadcrumbs>
+      </Stack>
+      <br />
+      {showDecks ? <DeckSearch /> : <CardSearch filter={filter} changefilter={changefilter} />}
       <br />
       <br />
-      <br />
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} >
+      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>
         {_DATA.currentData().map((card) => (
           <CardSummary key={card.id} data={card} />
         ))}
       </Grid>
 
-      <Pagination
+      <Pagination style={bottom}
         count={count}
         size="large"
         page={page}
@@ -80,6 +101,15 @@ function App() {
 
     </div>
   );
+}
+
+const padding = {
+  paddingLeft: "10px",
+}
+
+const bottom = {
+  position: "absolute",
+  bottom: "100px",
 }
 
 export default App;

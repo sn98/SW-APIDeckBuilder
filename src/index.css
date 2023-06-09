@@ -333,3 +333,28 @@ footer {
 .space-between-15 {
   height: 15px;
 }
+
+.search-box {
+  width: 352px;
+  height: 32px;
+
+  background: #FFFFFF;
+  border-radius: 4px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.search-interior {
+  display: flex;
+  /* flex-direction: row; */
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 10px;
+  /* padding: 5px; */
+
+}
+
+input:focus {
+  outline: none;
+}
