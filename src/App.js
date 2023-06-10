@@ -22,6 +22,9 @@ function App() {
     filter = change
   }] = useState('az');
 
+  const addDeck = () => {
+    console.log('we added a deck')
+  }
   const cards = ([
     {
       id: 1,
@@ -81,7 +84,7 @@ function App() {
         </Breadcrumbs>
       </Stack>
       <br />
-      {showDecks ? <DeckSearch /> : <CardSearch filter={filter} changefilter={changefilter} />}
+      {showDecks ? <DeckSearch addDeck={addDeck} /> : <CardSearch filter={filter} changefilter={changefilter} />}
       <br />
       <br />
       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>

@@ -8,20 +8,23 @@ import galacticEmpireSelected from '../assets/buttons/galacticEmpireSelected.svg
 import noFaction from '../assets/buttons/noFaction.svg'
 import noFactionSelected from '../assets/buttons/noFactionSelected.svg'
 
-const AddDeck = ({ addFunction }) => {
-    const [error, setError] = useState(false)
+const AddDeck = ({ addFunction, addDeck }) => {
+    const [error, setError] = useState('')
     const [selectedElement, setSelection] = useState(null)
     const [name, setName] = useState('')
     const something = (event) => {
         if (event.key === "Enter") {
+            event.preventDefault()
             if (selectedElement != null && name != '') {
-                setError(false)
-                event.preventDefault()
+                setError('')
                 addFunction(false)
-                // console.log('we done it')
+                addDeck()
+            } else if (selectedElement === null && name != '') {
+                setError('Please select a faction ')
+            } else if (selectedElement != null && name === '') {
+                setError('Please ender a name')
             } else {
-                setError(true)
-                event.preventDefault()
+                setError('Please ender a name and select a faction')
             }
         }
     }
@@ -38,7 +41,7 @@ const AddDeck = ({ addFunction }) => {
                         <img style={imgBorder} src={selectedElement === 'no' ? noFactionSelected : noFaction} onClick={() => setSelection('no')} />
                     </div>
                 </div>
-                {error && <p style={errorMsg}> Please ender a name and select a faction</p>}
+                {error != '' && <p style={errorMsg}>{error}</p>}
                 <div>
                     <label style={label}>Deck Name</label>
                     <input style={BarStyle} type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter Deck Name" onKeyDown={(e) => something(e)}></input>
