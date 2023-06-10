@@ -1,12 +1,18 @@
-import React from 'react';
+import { React, useState } from 'react';
 import SearchBar from './SearchBar';
 import addbutton from '../assets/buttons/addButton.svg';
+import addbuttonSelected from '../assets/buttons/addButtonSelected.svg';
+import AddDeck from './AddDeck';
 
 const DeckSearch = () => {
+    const [addSelected, addFunction] = useState(null)
     return (
-        <div style={searchrow}>
-            <SearchBar />
-            <img src={addbutton} />
+        <div style={outside}>
+            <div style={searchrow}>
+                <SearchBar />
+                <img src={addSelected ? addbuttonSelected : addbutton} onClick={() => addSelected ? addFunction(false) : addFunction(true)} />
+            </div>
+            {addSelected && <AddDeck addFunction={addFunction} />}
         </div>
     )
 }
@@ -19,5 +25,12 @@ const searchrow = {
     justifyContent: "space-between",
     height: "50px",
 }
+const outside = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+}
+
+
 
 export default DeckSearch
