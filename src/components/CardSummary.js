@@ -6,6 +6,7 @@ import female from '../assets/icons/female.svg';
 import planet from '../assets/icons/planet.svg';
 import vehicles from '../assets/icons/vehicles.svg';
 import starships from '../assets/icons/starships.svg';
+import noFaction from '../assets/icons/noFaction.svg';
 const CardSummary = ({ data }) => {
     return (
         <div style={padding}>
@@ -26,10 +27,10 @@ const CardSummary = ({ data }) => {
                     <div>
                         <div className='card-title-box'>
                             <div className='name-image'>
-                                <img src={data.gender === 'm' ? male : female} />
+                                <img src={data.gender === 'male' ? male : data.gender === 'female' ? female : noFaction} />
                                 &nbsp;<p className='summary-text-2'>19BBY</p>
                             </div>
-                            <p className='summary-text-2'>{data.species}</p>
+                            <p className='summary-text-2'>{data.species.length > 0 ? data.species[0] : "None"}</p>
                         </div>
                         <hr className='card-line' />
                     </div>
