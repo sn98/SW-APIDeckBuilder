@@ -1,19 +1,19 @@
-import React from 'react';
-import card from '../assets/icons/whiteCard.svg';
-import addbutton from '../assets/buttons/addButton.svg';
-import male from '../assets/icons/male.svg';
-import female from '../assets/icons/female.svg';
-import planet from '../assets/icons/planet.svg';
-import vehicles from '../assets/icons/vehicles.svg';
-import starships from '../assets/icons/starships.svg';
-import noFaction from '../assets/icons/noFaction.svg';
+import React from 'react'
+import card from '../assets/icons/whiteCard.svg'
+import addbutton from '../assets/buttons/addButton.svg'
+import male from '../assets/icons/male.svg'
+import female from '../assets/icons/female.svg'
+import planet from '../assets/icons/planet.svg'
+import vehicles from '../assets/icons/vehicles.svg'
+import starships from '../assets/icons/starships.svg'
+import noFaction from '../assets/icons/noFaction.svg'
 const CardSummary = ({ data }) => {
     return (
         <div style={padding}>
             <div className='card-outline-summary'>
                 <div className='name-frame'>
                     <div style={padding}>
-                        <div style={addCardSection}>
+                        <div style={cardControls}>
                             <img src={card} />
                             <img src={addbutton} />
                         </div>
@@ -67,7 +67,7 @@ const CardSummary = ({ data }) => {
 const padding = {
     padding: "15px"
 }
-const addCardSection = {
+const cardControls = {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",

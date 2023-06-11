@@ -1,14 +1,16 @@
-import { React, useState, useEffect } from 'react';
-import { Grid, Pagination, Stack, Link, Typography, Breadcrumbs } from '@mui/material';
-import usePagination from "./components/Pagination";
-import './App.css';
-import Header from './components/Header';
-import CardSummary from './components/CardSummary';
-import CardDetail from './components/CardDetail';
-import DeckSearch from './components/DeckSearch';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import CardSearch from './components/CardSearch';
+import { React, useState, useEffect } from 'react'
+import { Grid, Pagination, Stack, Link, Typography, Breadcrumbs } from '@mui/material'
+import usePagination from './components/Pagination'
+import './App.css'
+import Header from './components/Header'
+import CardSummary from './components/CardSummary'
+import DeckSummary from './components/DeckSummary'
+import CardDetail from './components/CardDetail'
+import DeckSearch from './components/DeckSearch'
+import NavigateNextIcon from '@mui/icons-material/NavigateNext'
+import CardSearch from './components/CardSearch'
 import axios from 'axios'
+import addbutton from './assets/buttons/smolAddButton.svg'
 
 function handleClick() {
   console.info('You clicked a breadcrumb.');
@@ -36,7 +38,6 @@ function App() {
       await fetchAndSetCards()
       // setCards(cardsFromDB)
     }
-
     getCards()
   }, [])
 
@@ -102,16 +103,24 @@ function App() {
     return homeworld.data.name
   }
   let [cards, setCards] = useState([])
+  let [decks, setDecks] = useState([])
 
   let [page, setPage] = useState(1);
+  let [deckPage, setDeckPage] = useState(1);
   const PER_PAGE = 15;
 
   const count = Math.ceil(cards.length / PER_PAGE);
+  const deckCount = Math.ceil(decks.length / PER_PAGE);
   const _DATA = usePagination(cards, PER_PAGE);
+  const _DECKDATA = usePagination(decks, PER_PAGE);
 
   const handleChange = (e, p) => {
     setPage(p);
     _DATA.jump(p);
+  };
+  const handleDeckChange = (e, p) => {
+    setDeckPage(p);
+    _DECKDATA.jump(p);
   };
 
   return (
@@ -134,22 +143,44 @@ function App() {
 
 
       </div>
-      <div style={grid}>
-        {<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>
-          {_DATA.currentData().map((card, index) => (
-            <CardSummary key={index} data={card} />
-          ))}
-        </Grid>}
-      </div>
+      {showDecks ?
+        <DeckSummary />
+        // decks.length === 0 ?
+        //   <p>No Decks Created. Please create a Deck by pressing the Add Deck {<img src={addbutton} />} button above</p> :
+        //   <div style={grid}>
+        //     {<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>
+        //       {_DECKDATA.currentData().map((deck, index) => (
+        //         <CardSummary key={index} data={deck} />
+        //       ))}
+        //     </Grid>}
+        //   </div>
+        :
+        <div style={grid}>
+          {<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>
+            {_DATA.currentData().map((card, index) => (
+              <CardSummary key={index} data={card} />
+            ))}
+          </Grid>}
+        </div>
+      }
 
-      <Pagination style={bottom}
-        count={count}
-        size="large"
-        page={page}
-        variant="outlined"
-        shape="rounded"
-        onChange={handleChange}
-      />
+      {showDecks ?
+        <Pagination style={bottom}
+          count={deckCount}
+          size="large"
+          page={deckPage}
+          variant="outlined"
+          shape="rounded"
+          onChange={handleDeckChange}
+        /> :
+        <Pagination style={bottom}
+          count={count}
+          size="large"
+          page={page}
+          variant="outlined"
+          shape="rounded"
+          onChange={handleChange}
+        />}
 
     </div>
   );
