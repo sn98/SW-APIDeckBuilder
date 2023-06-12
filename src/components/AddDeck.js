@@ -18,7 +18,7 @@ const AddDeck = ({ addFunction, addDeck }) => {
             if (selectedElement != null && name != '') {
                 setError('')
                 addFunction(false)
-                addDeck()
+                addDeck(selectedElement, name)
             } else if (selectedElement === null && name != '') {
                 setError('Please select a faction ')
             } else if (selectedElement != null && name === '') {

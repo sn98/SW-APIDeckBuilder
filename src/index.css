@@ -374,14 +374,8 @@ input:focus {
 .deck-summary-outline {
   width: 216px;
   height: 180px;
-
-  /* default/shade/white */
-
   background: #FFFFFF;
   border-radius: 8px;
-
-  /* Inside auto layout */
-
   flex: none;
   order: 1;
   flex-grow: 0;
@@ -389,7 +383,6 @@ input:focus {
 
 .deck-name-frame {
   /* position: absolute; */
-
   position: relative;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;

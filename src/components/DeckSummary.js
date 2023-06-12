@@ -9,8 +9,8 @@ const DeckSummary = () => {
     return (
         <div style={padding}>
             <div className='deck-summary-outline'>
-                <div id='father' style={NFColor} className='container deck-name-frame'>
-                    <div id='child' ><img className='deck-name-background' src={rebel} /></div>
+                <div style={NFColor} className='deck-name-frame'>
+                    <div ><img className='deck-name-background' src={rebel} /></div>
                     <div style={padding}>
                         <div style={deckControls}>
                             <img src={deck} />
@@ -19,6 +19,11 @@ const DeckSummary = () => {
                         <p className='space-between-15' />
                         <p className='card-name'>Name</p>
                     </div>
+                </div>
+
+                <div style={dataControls}>
+                    <p style={largeText}>10</p>
+                    <p style={total}>total cards</p>
                 </div>
 
             </div>
@@ -38,5 +43,18 @@ const deckControls = {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+}
+
+const dataControls = {
+    marginLeft: "10px",
+    marginRight: "10px",
+    display: "flex",
+    justifyContent: "space-between",
+}
+const largeText = {
+    fontSize: "50px",
+}
+const total = {
+    marginTop: "10px",
 }
 export default DeckSummary

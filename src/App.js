@@ -63,15 +63,6 @@ function App() {
         const spe = await axios.get(sp)
         species.push(spe.data.name)
       })
-      cards.push({
-        id: index,
-        name: f.name,
-        gender: f.gender,
-        homeworld: homeworld.data.name,
-        species: species,
-        vehicles: vehicles,
-        starships: starships,
-      })
       setCards(cards = [
         ...cards,
         {
@@ -86,25 +77,23 @@ function App() {
       ])
     })
   }
-  const addDeck = () => {
-    console.log('we added a deck')
-  }
 
-  let getHomeworld = async (url) => {
-    const homeworld = await axios.get(url)
-    return homeworld.data.name
-  }
-  let getStarships = async (url) => {
-    const homeworld = await axios.get(url)
-    return homeworld.data.name
-  }
-  let getVehicles = async (url) => {
-    const homeworld = await axios.get(url)
-    return homeworld.data.name
-  }
   let [cards, setCards] = useState([])
   let [decks, setDecks] = useState([])
 
+  // Creating Deck
+  const addDeck = async ({ faction, name }) => {
+    console.log('we added a deck')
+    const post = { faction: faction, name: name }
+    try {
+      const res = await axios.post(baseUrl + 'deck', post)
+      console.log(res.data)
+    } catch (e) {
+      alert(e)
+    }
+  }
+
+  //Pagination Stuff
   let [page, setPage] = useState(1);
   let [deckPage, setDeckPage] = useState(1);
   const PER_PAGE = 15;
