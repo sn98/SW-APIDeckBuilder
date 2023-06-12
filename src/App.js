@@ -18,21 +18,20 @@ function handleClick() {
 
 function App() {
   const baseUrl = "https://swapi.dev/api/"
-  const films = "https://swapi.dev/api/films/"
-  const people = "https://swapi.dev/api/people/"
-  const planets = "https://swapi.dev/api/planets/"
-  const species = "https://swapi.dev/api/species/"
-  const starships = "https://swapi.dev/api/starships/"
-  const vehicles = "https://swapi.dev/api/vehicles/"
 
   let [showDecks, updateTab = (isDecks) => {
     showDecks = isDecks
   }] = useState(false);
-  let [filter, changefilter = (change) => {
-    console.log('this is the new filter', change)
-    filter = change
-  }] = useState('az');
-
+  let [filter, changefilter] = useState('az');
+  const sortCards = (change) => {
+    if (change === 'old') {
+      cards.sort((a, b) => b.created > a.created ? -1 : 1)
+    } else if (change === 'young') {
+      cards.sort((a, b) => b.created > a.created ? 1 : -1)
+    } else {
+      cards.sort((a, b) => b.name > a.name ? -1 : 1)
+    }
+  }
   useEffect(() => {
     const getCards = async () => {
       await fetchAndSetCards()
@@ -43,11 +42,9 @@ function App() {
 
   const fetchAndSetCards = async () => {
     setCards(cards = [])
-    const result = await axios.get(people)
-
+    const result = await axios.get(baseUrl + "people/")
     result.data.results.forEach(async (f, index) => {
       const homeworld = await axios.get(f.homeworld)
-      console.log(f.species)
       let starships = []
       let vehicles = []
       let species = []
@@ -73,24 +70,31 @@ function App() {
           species: species,
           vehicles: vehicles,
           starships: starships,
+          created: f.created,
         }
       ])
+      cards.sort((a, b) => b.name > a.name ? -1 : 1)
     })
+    cards.sort((a, b) => b.name > a.name ? -1 : 1)
   }
 
   let [cards, setCards] = useState([])
   let [decks, setDecks] = useState([])
 
+  const deleteDeck = (id) => {
+    setDecks(decks.filter((deck) => deck.id !== id))
+  };
+
   // Creating Deck
-  const addDeck = async ({ faction, name }) => {
-    console.log('we added a deck')
-    const post = { faction: faction, name: name }
-    try {
-      const res = await axios.post(baseUrl + 'deck', post)
-      console.log(res.data)
-    } catch (e) {
-      alert(e)
-    }
+  const addDeck = async (faction, name) => {
+    setDecks(decks = [
+      ...decks,
+      {
+        faction: faction,
+        name: name,
+        cards: []
+      }
+    ])
   }
 
   //Pagination Stuff
@@ -113,46 +117,49 @@ function App() {
   };
 
   return (
-    <div style={mainPage}>
-      <div>
-        <Header title="SW-API Deck Builder" updateTab={updateTab} showDecks={showDecks} />
-        <br />
-        <Stack spacing={2}>
-          <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-            <Typography key="3" color="text.primary">
-              {showDecks ? 'All Decks' : 'All Cards'}
-            </Typography>,
-            <Link underline="hover" key="1" color="inherit" href="/" onClick={handleClick}>
-              {showDecks ? 'Select a deck' : 'Select a card'}
-            </Link>,
-          </Breadcrumbs>
-        </Stack>
-        <br />
-        {showDecks ? <DeckSearch addDeck={addDeck} /> : <CardSearch filter={filter} changefilter={changefilter} />}
+    <div>
+      <div style={mainPage}>
+        <div>
+          <Header title="SW-API Deck Builder" updateTab={updateTab} showDecks={showDecks} />
+          <br />
+          <Stack spacing={2}>
+            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+              <Typography key="3" color="text.primary">
+                {showDecks ? 'All Decks' : 'All Cards'}
+              </Typography>,
+              <Link underline="hover" key="1" color="inherit" href="/" onClick={handleClick}>
+                {showDecks ? 'Select a deck' : 'Select a card'}
+              </Link>,
+            </Breadcrumbs>
+          </Stack>
+          <br />
+          {showDecks ? <DeckSearch addDeck={addDeck} /> : <CardSearch filter={filter} changefilter={changefilter} sort={sortCards} />}
+
+
+        </div>
+        {showDecks ?
+          // <DeckSummary />
+          decks.length === 0 ?
+            <p>No Decks Created. Please create a Deck by pressing the Add Deck {<img src={addbutton} />} button above</p> :
+            <div style={grid}>
+              {<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>
+                {_DECKDATA.currentData().map((deck, index) => (
+                  <DeckSummary key={index} data={deck} onDelete={deleteDeck} />
+                ))}
+              </Grid>}
+            </div>
+          :
+          <div style={grid}>
+            {<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>
+              {_DATA.currentData().map((card, index) => (
+                <CardSummary key={index} data={card} />
+              ))}
+            </Grid>}
+          </div>
+        }
 
 
       </div>
-      {showDecks ?
-        <DeckSummary />
-        // decks.length === 0 ?
-        //   <p>No Decks Created. Please create a Deck by pressing the Add Deck {<img src={addbutton} />} button above</p> :
-        //   <div style={grid}>
-        //     {<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>
-        //       {_DECKDATA.currentData().map((deck, index) => (
-        //         <CardSummary key={index} data={deck} />
-        //       ))}
-        //     </Grid>}
-        //   </div>
-        :
-        <div style={grid}>
-          {<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>
-            {_DATA.currentData().map((card, index) => (
-              <CardSummary key={index} data={card} />
-            ))}
-          </Grid>}
-        </div>
-      }
-
       {showDecks ?
         <Pagination style={bottom}
           count={deckCount}
@@ -170,7 +177,6 @@ function App() {
           shape="rounded"
           onChange={handleChange}
         />}
-
     </div>
   );
 }
@@ -179,13 +185,12 @@ const mainPage = {
   display: "flex",
   flexDirection: "column",
   alignItem: "center",
-  justifyContent: "space-between"
+  justifyContent: "space-between",
   // marginBottom: "100px",
 }
 
 const grid = {
   paddingTop: "30px",
-  // position: "absolute",
   // top: "260px",
   height: "770px",
   overflow: "hidden",

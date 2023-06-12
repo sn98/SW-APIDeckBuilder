@@ -1,11 +1,20 @@
 import React from 'react';
 import SearchBar from './SearchBar';
 
-const CardSearch = ({ filter, changefilter }) => {
+const CardSearch = ({ filter, changefilter, sort }) => {
 
-    const az = () => changefilter('az')
-    const young = () => changefilter('young')
-    const old = () => changefilter('old')
+    const az = () => {
+        changefilter('az')
+        sort('az')
+    }
+    const young = () => {
+        changefilter('young')
+        sort('young')
+    }
+    const old = () => {
+        changefilter('old')
+        sort('old')
+    }
     return (
         <div style={searchrow}>
             <SearchBar />
