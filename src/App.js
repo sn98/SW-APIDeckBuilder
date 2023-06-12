@@ -60,11 +60,13 @@ function App() {
         const spe = await axios.get(sp)
         species.push(spe.data.name)
       })
-      setCards(cards = [
+      const exists = cards.some(v => (v.name === f.name));
+      if (!exists) setCards(cards = [
         ...cards,
         {
           id: index,
           name: f.name,
+          birth: f.birth_year,
           gender: f.gender,
           homeworld: homeworld.data.name,
           species: species,
@@ -85,11 +87,41 @@ function App() {
     setDecks(decks.filter((deck) => deck.id !== id))
   };
 
+  const addToDeck = (id, card) => {
+    setDecks(decks.map((deck) =>
+      deck.id === id ? { ...deck, cards: [...deck.cards, card] } : deck
+    ))
+  }
+  const removeFromDeck = (cardId) => {
+    decks.forEach((d) => {
+      // setDecks(decks.map((deck) =>
+      //   deck.id === d.id ? { ...deck, cards: deck.cards.filter((card) => card.id !== cardId) } : deck
+      // ))
+      d.cards.forEach((c) => {
+        if (c.id == cardId) {
+          console.log('we found it')
+          setDecks(decks.map((deck) =>
+            deck.cards = deck.cards.filter((card) => card.id !== cardId)
+          ))
+          console.log(d)
+        }
+      })
+      // console.log(d.cards)
+      // d.cards.filter((card) => card.id !== cardId)
+      // console.log(d.cards)
+    })
+    // console.log(notFound); // 👉️ undefined
+    // setDecks(decks.map((deck) =>
+    //   deck.id === id ? { ...deck, cards: ...deck.cards, deck.cards.filter((card) => card.id !== cardId) } : deck
+    // ))
+  }
   // Creating Deck
   const addDeck = async (faction, name) => {
+    const id = Math.floor(Math.random() * 10000) + 1
     setDecks(decks = [
       ...decks,
       {
+        id: id,
         faction: faction,
         name: name,
         cards: []
@@ -152,7 +184,7 @@ function App() {
           <div style={grid}>
             {<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>
               {_DATA.currentData().map((card, index) => (
-                <CardSummary key={index} data={card} />
+                <CardSummary key={index} data={card} decks={decks} addToDeck={addToDeck} removeCard={removeFromDeck} />
               ))}
             </Grid>}
           </div>

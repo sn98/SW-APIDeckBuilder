@@ -174,7 +174,7 @@ footer {
 .card-outline-summary {
   width: 216px;
   height: 282px;
-
+  position: relative;
   background: #FFFFFF;
   border-radius: 8px;
 
@@ -405,4 +405,81 @@ input:focus {
   opacity: 0.2;
   /* default/neutral-gray/200 */
 
+}
+
+.select-deck-outline {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 216px;
+  height: 171px;
+  right: 15px;
+  top: 60px;
+  padding-top: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  /* default/neutral-gray/200 */
+
+  background: #EDEDED;
+  /* default/neutral-gray/400 */
+
+  border: 1px solid #B8B8B8;
+  box-shadow: 0px 19px 25px rgba(0, 0, 0, 0.14944), 0px 1.26352px 1.66253px rgba(0, 0, 0, 0.37);
+  border-radius: 4px;
+}
+
+.select-deck-title {
+  width: 71px;
+  height: 12px;
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 12px;
+  padding-bottom: 15px;
+
+  /* identical to box height, or 100% */
+
+  /* default/neutral-gray/500 */
+
+  color: #969696;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+
+}
+
+.select-deck-listing {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 7px 8px;
+  gap: 10px;
+  width: 192px;
+  height: 26px;
+
+  /* default/shade/white */
+
+  background: #FFFFFF;
+  border-radius: 2px;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.select-deck-name {
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 14px;
+  color: #3B3B3B;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
 }

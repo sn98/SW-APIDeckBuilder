@@ -1,8 +1,8 @@
-import { React, useState } from 'react';
-import SearchBar from './SearchBar';
-import addbutton from '../assets/buttons/addButton.svg';
-import addbuttonSelected from '../assets/buttons/addButtonSelected.svg';
-import AddDeck from './AddDeck';
+import { React, useState } from 'react'
+import SearchBar from './SearchBar'
+import addbutton from '../assets/buttons/addButton.svg'
+import addbuttonSelected from '../assets/buttons/addButtonSelected.svg'
+import AddDeck from './AddDeck'
 
 const DeckSearch = ({ addDeck }) => {
     const [addSelected, addFunction] = useState(null)
