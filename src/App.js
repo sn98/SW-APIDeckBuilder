@@ -7,6 +7,8 @@ import CardSummary from './components/CardSummary'
 import DeckSummary from './components/DeckSummary'
 import CardDetail from './components/CardDetail'
 import DeckSearch from './components/DeckSearch'
+import Cards from './components/Cards'
+import Decks from './components/Decks'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import CardSearch from './components/CardSearch'
 import axios from 'axios'
@@ -22,27 +24,17 @@ function App() {
   let [showDecks, updateTab = (isDecks) => {
     showDecks = isDecks
   }] = useState(false);
-  let [filter, changefilter] = useState('az');
-  const sortCards = (change) => {
-    if (change === 'old') {
-      cards.sort((a, b) => b.created > a.created ? -1 : 1)
-    } else if (change === 'young') {
-      cards.sort((a, b) => b.created > a.created ? 1 : -1)
-    } else {
-      cards.sort((a, b) => b.name > a.name ? -1 : 1)
-    }
-  }
+
   useEffect(() => {
     const getCards = async () => {
-      await fetchAndSetCards()
-      // setCards(cardsFromDB)
+      setCards(cards = [])
+      await fetchAndSetCards(baseUrl + "people/")
     }
     getCards()
   }, [])
 
-  const fetchAndSetCards = async () => {
-    setCards(cards = [])
-    const result = await axios.get(baseUrl + "people/")
+  const fetchAndSetCards = async (url) => {
+    const result = await axios.get(url)
     result.data.results.forEach(async (f, index) => {
       const homeworld = await axios.get(f.homeworld)
       let starships = []
@@ -77,9 +69,53 @@ function App() {
       ])
       cards.sort((a, b) => b.name > a.name ? -1 : 1)
     })
-    cards.sort((a, b) => b.name > a.name ? -1 : 1)
+    if (result.data.next != null)
+      fetchAndSetCards(result.data.next)
+  }
+  const searchFunction = async (url) => {
+    const result = await axios.get(url)
+    setCards(cards = [])
+    result.data.results.forEach(async (f, index) => {
+      const homeworld = await axios.get(f.homeworld)
+      let starships = []
+      let vehicles = []
+      let species = []
+      f.starships.forEach(async (s) => {
+        const star = await axios.get(s)
+        starships.push(star.data.name)
+      })
+      f.vehicles.forEach(async (c) => {
+        const car = await axios.get(c)
+        vehicles.push(car.data.name)
+      })
+      f.species.forEach(async (sp) => {
+        const spe = await axios.get(sp)
+        species.push(spe.data.name)
+      })
+      const exists = cards.some(v => (v.name === f.name));
+      if (!exists) setCards(cards = [
+        ...cards,
+        {
+          id: index,
+          name: f.name,
+          birth: f.birth_year,
+          gender: f.gender,
+          homeworld: homeworld.data.name,
+          species: species,
+          vehicles: vehicles,
+          starships: starships,
+          created: f.created,
+        }
+      ])
+      cards.sort((a, b) => b.name > a.name ? -1 : 1)
+    })
   }
 
+  const cardSearch = async (term) => {
+    console.log('searching')
+    if (term != "") await searchFunction(baseUrl + "people/?search=" + term)
+    else await searchFunction(baseUrl + "people/")
+  }
   let [cards, setCards] = useState([])
   let [decks, setDecks] = useState([])
 
@@ -94,9 +130,6 @@ function App() {
   }
   const removeFromDeck = (cardId) => {
     decks.forEach((d) => {
-      // setDecks(decks.map((deck) =>
-      //   deck.id === d.id ? { ...deck, cards: deck.cards.filter((card) => card.id !== cardId) } : deck
-      // ))
       d.cards.forEach((c) => {
         if (c.id == cardId) {
           console.log('we found it')
@@ -106,14 +139,7 @@ function App() {
           console.log(d)
         }
       })
-      // console.log(d.cards)
-      // d.cards.filter((card) => card.id !== cardId)
-      // console.log(d.cards)
     })
-    // console.log(notFound); // 👉️ undefined
-    // setDecks(decks.map((deck) =>
-    //   deck.id === id ? { ...deck, cards: ...deck.cards, deck.cards.filter((card) => card.id !== cardId) } : deck
-    // ))
   }
   // Creating Deck
   const addDeck = async (faction, name) => {
@@ -129,32 +155,28 @@ function App() {
     ])
   }
 
-  //Pagination Stuff
-  let [page, setPage] = useState(1);
-  let [deckPage, setDeckPage] = useState(1);
-  const PER_PAGE = 15;
-
-  const count = Math.ceil(cards.length / PER_PAGE);
-  const deckCount = Math.ceil(decks.length / PER_PAGE);
-  const _DATA = usePagination(cards, PER_PAGE);
-  const _DECKDATA = usePagination(decks, PER_PAGE);
-
-  const handleChange = (e, p) => {
-    setPage(p);
-    _DATA.jump(p);
-  };
-  const handleDeckChange = (e, p) => {
-    setDeckPage(p);
-    _DECKDATA.jump(p);
-  };
 
   return (
     <div>
-      <div style={mainPage}>
-        <div>
-          <Header title="SW-API Deck Builder" updateTab={updateTab} showDecks={showDecks} />
-          <br />
-          <Stack spacing={2}>
+      <div className='header-div'>
+        <Header title="SW-API Deck Builder" updateTab={updateTab} showDecks={showDecks} />
+      </div>
+
+      <br />
+      {showDecks ?
+        <Decks
+          decks={decks}
+          deleteDeck={deleteDeck}
+          addDeck={addDeck}
+        /> :
+        <Cards
+          decks={decks}
+          cards={cards}
+          cardSearch={cardSearch}
+          addToDeck={addToDeck}
+          removeFromDeck={removeFromDeck}
+        />}
+      {/* <Stack spacing={2}>
             <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
               <Typography key="3" color="text.primary">
                 {showDecks ? 'All Decks' : 'All Cards'}
@@ -165,50 +187,9 @@ function App() {
             </Breadcrumbs>
           </Stack>
           <br />
-          {showDecks ? <DeckSearch addDeck={addDeck} /> : <CardSearch filter={filter} changefilter={changefilter} sort={sortCards} />}
+          {showDecks ? <DeckSearch addDeck={addDeck} /> : <CardSearch filter={filter} changefilter={changefilter} sort={sortCards} searchFunc={cardSearch} />}
+ */}
 
-
-        </div>
-        {showDecks ?
-          // <DeckSummary />
-          decks.length === 0 ?
-            <p>No Decks Created. Please create a Deck by pressing the Add Deck {<img src={addbutton} />} button above</p> :
-            <div style={grid}>
-              {<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>
-                {_DECKDATA.currentData().map((deck, index) => (
-                  <DeckSummary key={index} data={deck} onDelete={deleteDeck} />
-                ))}
-              </Grid>}
-            </div>
-          :
-          <div style={grid}>
-            {<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>
-              {_DATA.currentData().map((card, index) => (
-                <CardSummary key={index} data={card} decks={decks} addToDeck={addToDeck} removeCard={removeFromDeck} />
-              ))}
-            </Grid>}
-          </div>
-        }
-
-
-      </div>
-      {showDecks ?
-        <Pagination style={bottom}
-          count={deckCount}
-          size="large"
-          page={deckPage}
-          variant="outlined"
-          shape="rounded"
-          onChange={handleDeckChange}
-        /> :
-        <Pagination style={bottom}
-          count={count}
-          size="large"
-          page={page}
-          variant="outlined"
-          shape="rounded"
-          onChange={handleChange}
-        />}
     </div>
   );
 }

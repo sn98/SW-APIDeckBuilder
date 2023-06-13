@@ -31,6 +31,10 @@ code {
   margin-bottom: 10px;
 }
 
+.header-div {
+  height: 5vh;
+}
+
 .headerTitle {
   /* display: flex;
   flex-direction: column; */
@@ -482,4 +486,11 @@ input:focus {
   flex: none;
   order: 0;
   flex-grow: 0;
+}
+
+.grid {
+  padding-top: 20px;
+  height: 67vh;
+  overflow: hidden;
+  overflow-y: auto;
 }
