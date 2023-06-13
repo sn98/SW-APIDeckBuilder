@@ -3,6 +3,10 @@ import searchIcon from '../assets/icons/search.svg';
 
 const SearchBar = ({ search }) => {
     const [keyword, setKeyword] = useState('')
+    const dealWithInput = (word) => {
+        setKeyword(word)
+        if (word != '') search("")
+    }
     return (
         <div className='search-box'>
             <div className="search-interior">
@@ -11,7 +15,7 @@ const SearchBar = ({ search }) => {
                     key="deck-search-bar"
                     value={keyword}
                     placeholder={"Search"}
-                    onChange={(e) => e.target.value.length === -1 ? search("") : setKeyword(e.target.value)}
+                    onChange={(e) => dealWithInput(e.target.value)}
                 />
                 <img src={searchIcon} onClick={() => search(keyword)} />
             </div>

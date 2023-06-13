@@ -112,19 +112,30 @@ function App() {
   }
 
   const cardSearch = async (term) => {
-    console.log('searching')
     if (term != "") await searchFunction(baseUrl + "people/?search=" + term)
-    else await searchFunction(baseUrl + "people/")
+    else await fetchAndSetCards(baseUrl + "people/")
+  }
+  const deckSearch = (term) => {
+
+    setDecks(originalDecks)
+    console.log('we searching the decks' + originalDecks)
+    if (term != "") { setDecks(decks.filter((deck) => deck.name == term)) }
+    else { setDecks(originalDecks) }
   }
   let [cards, setCards] = useState([])
   let [decks, setDecks] = useState([])
+  let [originalDecks, setOriginal] = useState([])
 
   const deleteDeck = (id) => {
     setDecks(decks.filter((deck) => deck.id !== id))
+    setOriginal(originalDecks.filter((deck) => deck.id !== id))
   };
 
   const addToDeck = (id, card) => {
     setDecks(decks.map((deck) =>
+      deck.id === id ? { ...deck, cards: [...deck.cards, card] } : deck
+    ))
+    setOriginal(originalDecks.map((deck) =>
       deck.id === id ? { ...deck, cards: [...deck.cards, card] } : deck
     ))
   }
@@ -134,6 +145,9 @@ function App() {
         if (c.id == cardId) {
           console.log('we found it')
           setDecks(decks.map((deck) =>
+            deck.cards = deck.cards.filter((card) => card.id !== cardId)
+          ))
+          setOriginal(originalDecks.map((deck) =>
             deck.cards = deck.cards.filter((card) => card.id !== cardId)
           ))
           console.log(d)
@@ -146,6 +160,15 @@ function App() {
     const id = Math.floor(Math.random() * 10000) + 1
     setDecks(decks = [
       ...decks,
+      {
+        id: id,
+        faction: faction,
+        name: name,
+        cards: []
+      }
+    ])
+    setOriginal(originalDecks = [
+      ...originalDecks,
       {
         id: id,
         faction: faction,
@@ -166,6 +189,7 @@ function App() {
       {showDecks ?
         <Decks
           decks={decks}
+          deckSearch={deckSearch}
           deleteDeck={deleteDeck}
           addDeck={addDeck}
         /> :

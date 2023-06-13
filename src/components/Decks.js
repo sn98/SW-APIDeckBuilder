@@ -11,8 +11,7 @@ function handleClick() {
     console.info('You clicked a breadcrumb.');
 }
 
-function Decks({ decks, deleteDeck, addDeck }) {
-
+function Decks({ decks, deckSearch, deleteDeck, addDeck }) {
 
     //Pagination Stuff
     let [page, setPage] = useState(1);
@@ -41,8 +40,7 @@ function Decks({ decks, deleteDeck, addDeck }) {
                             </Link>,
                         </Breadcrumbs>
                     </Stack>
-                    <br />
-                    <DeckSearch addDeck={addDeck} />
+                    <DeckSearch addDeck={addDeck} searchFunc={deckSearch} />
                 </div>
 
                 {decks.length === 0 ?
@@ -82,7 +80,7 @@ const padding = {
 
 const bottom = {
     position: "absolute",
-    bottom: "200px",
+    bottom: "20px",
 }
 
 export default Decks;
