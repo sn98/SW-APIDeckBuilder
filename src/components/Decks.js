@@ -3,6 +3,7 @@ import { Grid, Pagination, Stack, Link, Typography, Breadcrumbs } from '@mui/mat
 import usePagination from './Pagination'
 import '../App.css'
 import DeckSummary from './DeckSummary'
+import CardSummary from './CardSummary'
 import DeckSearch from './DeckSearch'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import addbutton from '../assets/buttons/smolAddButton.svg'
@@ -25,6 +26,16 @@ function Decks({ decks, deckSearch, deleteDeck, addDeck }) {
         _DATA.jump(p);
     };
 
+    const [showCards, showTheCards] = useState(false)
+    const [detailedDeck, setDeckToDetail] = useState(null)
+
+    const ccount = Math.ceil(detailedDeck !== null ? detailedDeck.cards.length : 0 / PER_PAGE);
+    const _CDATA = usePagination(detailedDeck !== null ? detailedDeck.cards : [], PER_PAGE);
+    const handleCChange = (e, p) => {
+        setPage(p);
+        _CDATA.jump(p);
+    };
+
     return (
         <div>
             <div style={mainPage}>
@@ -32,11 +43,14 @@ function Decks({ decks, deckSearch, deleteDeck, addDeck }) {
                     <br />
                     <Stack spacing={2}>
                         <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-                            <Typography key="3" color="text.primary">
+                            <Typography key="3" color="text.primary" onClick={() => {
+                                showTheCards(false)
+                                setDeckToDetail(null)
+                            }}>
                                 All Decks
                             </Typography>,
                             <Link underline="hover" key="1" color="inherit" href="/" onClick={handleClick}>
-                                Select a deck
+                                {showCards && detailedDeck !== null ? detailedDeck.name + ' Deck' : 'Select a deck'}
                             </Link>,
                         </Breadcrumbs>
                     </Stack>
@@ -47,20 +61,29 @@ function Decks({ decks, deckSearch, deleteDeck, addDeck }) {
                     <p>No Decks Created. Please create a Deck by pressing the Add Deck {<img src={addbutton} />} button above</p> :
                     <div className='grid'>
                         {<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>
-                            {_DATA.currentData().map((deck, index) => (
-                                <DeckSummary key={index} data={deck} onDelete={deleteDeck} />
+                            {showCards ? _CDATA.currentData().map((card, index) => (
+                                <CardSummary key={index} data={card} deckCards={true} />
+                            )) : _DATA.currentData().map((deck, index) => (
+                                <DeckSummary key={index} data={deck} onDelete={deleteDeck} showTheCards={showTheCards} setDeckToDetail={setDeckToDetail} decksCards={false} />
                             ))}
                         </Grid>}
                     </div>}
             </div>
-            <Pagination style={bottom}
-                count={count}
+            {showCards ? <Pagination style={bottom}
+                count={ccount}
                 size="large"
                 page={page}
                 variant="outlined"
                 shape="rounded"
                 onChange={handleChange}
-            />
+            /> : <Pagination style={bottom}
+                count={count}
+                size="large"
+                page={page}
+                variant="outlined"
+                shape="rounded"
+                onChange={handleCChange}
+            />}
         </div>
     );
 }

@@ -1,7 +1,5 @@
 import { React, useState } from 'react'
 import card from '../assets/icons/whiteCard.svg'
-import addbutton from '../assets/buttons/addButton.svg'
-import addbuttonSelected from '../assets/buttons/addButtonSelected.svg'
 import male from '../assets/icons/male.svg'
 import female from '../assets/icons/female.svg'
 import planet from '../assets/icons/planet.svg'
@@ -9,7 +7,8 @@ import vehicles from '../assets/icons/vehicles.svg'
 import starships from '../assets/icons/starships.svg'
 import noFaction from '../assets/icons/noFaction.svg'
 import SelectDeck from './SelectDeck'
-const CardSummary = ({ data, decks, addToDeck, removeCard, gotoDetails, selectCard }) => {
+import CardControls from './CardControls'
+const CardSummary = ({ data, decks, addToDeck, removeCard, gotoDetails, selectCard, deckCards }) => {
     const [addSelected, addFunction] = useState(null)
     const addCardToDeck = (id, card) => {
         removeCard(card.id)
@@ -19,25 +18,27 @@ const CardSummary = ({ data, decks, addToDeck, removeCard, gotoDetails, selectCa
     }
     return (
         <div style={padding}>
-            <div className='card-outline-summary' onClick={() => {
-                selectCard(data)
-                gotoDetails(true)
-            }}>
-                <div className='name-frame'>
+            <div className='card-outline-summary' >
+                <div className='name-frame' >
                     <div style={padding}>
                         <div style={cardControls}>
                             <img src={card} />
-                            <img src={addSelected ? addbuttonSelected : addbutton} onClick={() => addSelected ? addFunction(false) : addFunction(true)} />
-
+                            {deckCards ?
+                                <CardControls addSelected={addSelected} addFunction={addFunction} /> :
+                                <CardControls addSelected={addSelected} addFunction={addFunction} />}
                         </div>
                         {addSelected && <SelectDeck decks={decks} addToDeck={addCardToDeck} card={data} />}
+                        <p className='space-between-15' />
                         <p className='space-between-15' />
                         <p className='card-name'>{data.name}</p>
                     </div>
                 </div>
                 <p className='space-between-10' />
 
-                <div className='card-details-group'>
+                <div className='card-details-group' onClick={() => {
+                    selectCard(data)
+                    gotoDetails(true)
+                }}>
                     <div>
                         <div className='card-title-box'>
                             <div className='name-image'>

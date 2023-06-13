@@ -15,6 +15,7 @@ const CardDetail = ({ data }) => {
                             <img src={card} />
                         </div>
                         <p className='space-between-15' />
+                        <p className='space-between-15' />
                         <p className='card-name'>{data.name}</p>
                     </div>
                 </div>

@@ -5,10 +5,13 @@ import rebel from '../assets/icons/rebelBackground.svg'
 import jedi from '../assets/icons/jediBackground.svg'
 import empire from '../assets/icons/empireBackground.svg'
 import nofaction from '../assets/icons/noFactionBackground.svg'
-const DeckSummary = ({ data, onDelete }) => {
+const DeckSummary = ({ data, onDelete, showTheCards, setDeckToDetail }) => {
     return (
         <div style={padding}>
-            <div className='deck-summary-outline'>
+            <div className='deck-summary-outline' onClick={() => {
+                setDeckToDetail(data)
+                showTheCards(true)
+            }}>
                 <div
                     style={
                         data.faction === 'rebel' ? rebelColor :

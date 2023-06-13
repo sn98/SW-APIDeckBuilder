@@ -213,10 +213,7 @@ footer {
 }
 
 .card-name {
-  position: absolute;
   height: 30px;
-  left: 16px;
-  bottom: 10px;
   color: white;
   font-style: normal;
   font-weight: 400;
@@ -415,17 +412,16 @@ input:focus {
 
 .select-deck-outline {
   box-sizing: border-box;
-
   position: absolute;
   width: 216px;
   height: 171px;
-  right: 15px;
+  left: 15px;
   top: 60px;
   padding-top: 10px;
   padding-left: 15px;
   padding-right: 15px;
   /* default/neutral-gray/200 */
-
+  opacity: 1;
   background: #EDEDED;
   /* default/neutral-gray/400 */
 
@@ -478,7 +474,6 @@ input:focus {
 }
 
 .select-deck-name {
-
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
@@ -491,8 +486,14 @@ input:focus {
 }
 
 .grid {
+  position: inherit;
   padding-top: 20px;
   height: 67vh;
   overflow: hidden;
   overflow-y: auto;
+}
+
+.ontop {
+  position: absolute;
+  right: 15px;
 }
