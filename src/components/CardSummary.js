@@ -9,7 +9,7 @@ import vehicles from '../assets/icons/vehicles.svg'
 import starships from '../assets/icons/starships.svg'
 import noFaction from '../assets/icons/noFaction.svg'
 import SelectDeck from './SelectDeck'
-const CardSummary = ({ data, decks, addToDeck, removeCard }) => {
+const CardSummary = ({ data, decks, addToDeck, removeCard, gotoDetails, selectCard }) => {
     const [addSelected, addFunction] = useState(null)
     const addCardToDeck = (id, card) => {
         removeCard(card.id)
@@ -19,7 +19,10 @@ const CardSummary = ({ data, decks, addToDeck, removeCard }) => {
     }
     return (
         <div style={padding}>
-            <div className='card-outline-summary'>
+            <div className='card-outline-summary' onClick={() => {
+                selectCard(data)
+                gotoDetails(true)
+            }}>
                 <div className='name-frame'>
                     <div style={padding}>
                         <div style={cardControls}>

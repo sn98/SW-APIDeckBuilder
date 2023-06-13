@@ -5,6 +5,7 @@ import '../App.css'
 import CardSummary from './CardSummary'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import CardSearch from './CardSearch'
+import CardDetail from './CardDetail'
 
 function handleClick() {
     console.info('You clicked a breadcrumb.');
@@ -34,6 +35,10 @@ function Cards({ decks, cards, cardSearch, addToDeck, removeFromDeck }) {
         setPage(p);
         _DATA.jump(p);
     };
+
+    const [showDetail, selectDetail] = useState(false)
+    const [cardToDetail, selectCardToDetail] = useState(null)
+
     return (
         <div>
             <div style={mainPage}>
@@ -41,37 +46,39 @@ function Cards({ decks, cards, cardSearch, addToDeck, removeFromDeck }) {
                     <br />
                     <Stack spacing={2}>
                         <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-                            <Typography key="3" color="text.primary">
+                            <Typography key="3" color="text.primary" onClick={() => {
+                                selectDetail(false)
+                                selectCardToDetail(null)
+                            }}>
                                 All Cards
                             </Typography>,
-                            <Link underline="hover" key="1" color="inherit" href="/" onClick={handleClick}>
-                                Select a card
+                            <Link underline="hover" key="1" color="inherit" onClick={handleClick}>
+                                {showDetail && cardToDetail !== null ? cardToDetail.name + ' Details' : 'Select a card'}
                             </Link>,
                         </Breadcrumbs>
                     </Stack>
-                    <CardSearch filter={filter} changefilter={changefilter} sort={sortCards} searchFunc={cardSearch} />
+                    {!showDetail && <CardSearch filter={filter} changefilter={changefilter} sort={sortCards} searchFunc={cardSearch} />}
+
                 </div>
 
                 <div className='grid'>
-                    {<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>
-                        {_DATA.currentData().map((card, index) => (
-                            <CardSummary key={index} data={card} decks={decks} addToDeck={addToDeck} removeCard={removeFromDeck} />
+                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>
+                        {showDetail && cardToDetail !== null ? <CardDetail data={cardToDetail} /> : _DATA.currentData().map((card, index) => (
+                            <CardSummary key={index} data={card} decks={decks} addToDeck={addToDeck} removeCard={removeFromDeck} gotoDetails={selectDetail} selectCard={selectCardToDetail} />
                         ))}
-                    </Grid>}
+                    </Grid>
                 </div>
-
-
 
             </div>
 
-            <Pagination style={bottom}
+            {!showDetail && <Pagination style={bottom}
                 count={count}
                 size="large"
                 page={page}
                 variant="outlined"
                 shape="rounded"
                 onChange={handleChange}
-            />
+            />}
         </div>
     );
 }

@@ -5,7 +5,7 @@ const SearchBar = ({ search }) => {
     const [keyword, setKeyword] = useState('')
     const dealWithInput = (word) => {
         setKeyword(word)
-        if (word != '') search("")
+        if (word !== '') search("")
     }
     return (
         <div className='search-box'>
