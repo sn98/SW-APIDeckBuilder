@@ -139,21 +139,10 @@ function App() {
       deck.id === id ? { ...deck, cards: [...deck.cards, card] } : deck
     ))
   }
-  const removeFromDeck = (cardId) => {
-    decks.forEach((d) => {
-      d.cards.forEach((c) => {
-        if (c.id == cardId) {
-          console.log('we found it')
-          setDecks(decks.map((deck) =>
-            deck.cards = deck.cards.filter((card) => card.id !== cardId)
-          ))
-          setOriginal(originalDecks.map((deck) =>
-            deck.cards = deck.cards.filter((card) => card.id !== cardId)
-          ))
-          console.log(d)
-        }
-      })
-    })
+  const removeFromDeck = (deckId, cardId) => {
+    const index = decks.findIndex((deck) => deck.id === deckId)
+    if (index !== -1) decks[index].cards = decks[index].cards.filter((card) => card.id !== cardId)
+    setDecks(decks)
   }
   // Creating Deck
   const addDeck = async (faction, name) => {
@@ -192,6 +181,8 @@ function App() {
           deckSearch={deckSearch}
           deleteDeck={deleteDeck}
           addDeck={addDeck}
+          removeFromDeck={removeFromDeck}
+          addToDeck={addToDeck}
         /> :
         <Cards
           decks={decks}

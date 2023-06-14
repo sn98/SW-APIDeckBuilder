@@ -12,7 +12,7 @@ function handleClick() {
     console.info('You clicked a breadcrumb.');
 }
 
-function Decks({ decks, deckSearch, deleteDeck, addDeck }) {
+function Decks({ decks, deckSearch, deleteDeck, addDeck, removeFromDeck, addToDeck }) {
 
     //Pagination Stuff
     let [page, setPage] = useState(1);
@@ -61,10 +61,10 @@ function Decks({ decks, deckSearch, deleteDeck, addDeck }) {
                     <p>No Decks Created. Please create a Deck by pressing the Add Deck {<img src={addbutton} />} button above</p> :
                     <div className='grid'>
                         {<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>
-                            {showCards ? _CDATA.currentData().map((card, index) => (
-                                <CardSummary key={index} data={card} deckCards={true} />
+                            {showCards && detailedDeck !== null ? _CDATA.currentData().map((card, index) => (
+                                <CardSummary key={index} data={card} decks={decks} showTheCards={showTheCards} deck={detailedDeck} addToDeck={addToDeck} deckCards={true} removeCard={removeFromDeck} />
                             )) : _DATA.currentData().map((deck, index) => (
-                                <DeckSummary key={index} data={deck} onDelete={deleteDeck} showTheCards={showTheCards} setDeckToDetail={setDeckToDetail} decksCards={false} />
+                                <DeckSummary key={index} data={deck} onDelete={deleteDeck} showTheCards={showTheCards} setDeckToDetail={setDeckToDetail} />
                             ))}
                         </Grid>}
                     </div>}

@@ -8,11 +8,10 @@ import starships from '../assets/icons/starships.svg'
 import noFaction from '../assets/icons/noFaction.svg'
 import SelectDeck from './SelectDeck'
 import CardControls from './CardControls'
-const CardSummary = ({ data, decks, addToDeck, removeCard, gotoDetails, selectCard, deckCards }) => {
+import DeckControls from './DeckControls'
+const CardSummary = ({ data, decks, deck, addToDeck, removeCard, gotoDetails, selectCard, deckCards, showTheCards }) => {
     const [addSelected, addFunction] = useState(null)
     const addCardToDeck = (id, card) => {
-        removeCard(card.id)
-        console.log('we here')
         addToDeck(id, card)
         addFunction(false)
     }
@@ -24,7 +23,7 @@ const CardSummary = ({ data, decks, addToDeck, removeCard, gotoDetails, selectCa
                         <div style={cardControls}>
                             <img src={card} />
                             {deckCards ?
-                                <CardControls addSelected={addSelected} addFunction={addFunction} /> :
+                                <DeckControls deck={deck} removeCard={removeCard} data={data} decks={decks} addToDeck={addCardToDeck} showTheCards={showTheCards} /> :
                                 <CardControls addSelected={addSelected} addFunction={addFunction} />}
                         </div>
                         {addSelected && <SelectDeck decks={decks} addToDeck={addCardToDeck} card={data} />}
