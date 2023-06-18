@@ -16,6 +16,7 @@
     "react-column": "^0.0.1",
     "react-dom": "^18.2.0",
     "react-paginate": "^8.2.0",
+    "react-responsive": "^9.0.2",
     "react-row": "^1.0.2",
     "react-scripts": "5.0.1",
     "react-svg": "^16.1.15",

@@ -12,8 +12,12 @@ function handleClick() {
     console.info('You clicked a breadcrumb.');
 }
 
-function Decks({ decks, deckSearch, deleteDeck, addDeck, removeFromDeck, addToDeck }) {
+function Decks({ decks, deckSearch, deleteDeck, addDeck, removeFromDeck, addToDeck, size }) {
 
+    const centerItem = {
+        display: "flex",
+        alignItems: size <= global.width.lowerEnd ? "flex-start" : "left"
+    }
     //Pagination Stuff
     let [page, setPage] = useState(1);
     const PER_PAGE = 15;
@@ -54,36 +58,37 @@ function Decks({ decks, deckSearch, deleteDeck, addDeck, removeFromDeck, addToDe
                             </Link>,
                         </Breadcrumbs>
                     </Stack>
-                    <DeckSearch addDeck={addDeck} searchFunc={deckSearch} />
+                    <DeckSearch addDeck={addDeck} searchFunc={deckSearch} size={size} isDecks={true} />
                 </div>
 
                 {decks.length === 0 ?
                     <p>No Decks Created. Please create a Deck by pressing the Add Deck {<img src={addbutton} />} button above</p> :
                     <div className='grid'>
-                        {<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>
+                        {<Grid container spacing={{ xs: 2, md: 3, lg: 2 }} columns={{ xs: 4, sm: 8, md: 12 }} >
                             {showCards && detailedDeck !== null ? _CDATA.currentData().map((card, index) => (
-                                <CardSummary key={index} data={card} decks={decks} showTheCards={showTheCards} deck={detailedDeck} addToDeck={addToDeck} deckCards={true} removeCard={removeFromDeck} />
+                                <CardSummary key={index} data={card} decks={decks} showTheCards={showTheCards} deck={detailedDeck} addToDeck={addToDeck} deckCards={true} removeCard={removeFromDeck} size={size} />
                             )) : _DATA.currentData().map((deck, index) => (
-                                <DeckSummary key={index} data={deck} onDelete={deleteDeck} showTheCards={showTheCards} setDeckToDetail={setDeckToDetail} />
+                                <DeckSummary key={index} data={deck} onDelete={deleteDeck} showTheCards={showTheCards} setDeckToDetail={setDeckToDetail} size={size} />
                             ))}
                         </Grid>}
                     </div>}
-            </div>
-            {showCards ? <Pagination style={bottom}
-                count={ccount}
-                size="large"
-                page={page}
-                variant="outlined"
-                shape="rounded"
-                onChange={handleChange}
-            /> : <Pagination style={bottom}
-                count={count}
-                size="large"
-                page={page}
-                variant="outlined"
-                shape="rounded"
-                onChange={handleCChange}
-            />}
+            </div >
+            <div style={centerItem}>
+                {showCards ? <Pagination style={bottom}
+                    count={ccount}
+                    size="large"
+                    page={page}
+                    variant="outlined"
+                    shape="rounded"
+                    onChange={handleChange}
+                /> : <Pagination style={bottom}
+                    count={count}
+                    size="large"
+                    page={page}
+                    variant="outlined"
+                    shape="rounded"
+                    onChange={handleCChange}
+                />}</div>
         </div>
     );
 }
@@ -96,10 +101,6 @@ const mainPage = {
     // marginBottom: "100px",
 }
 
-const padding = {
-    paddingLeft: "10px",
-    // marginBottom: "100px",
-}
 
 const bottom = {
     position: "absolute",

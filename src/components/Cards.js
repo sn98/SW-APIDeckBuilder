@@ -11,7 +11,7 @@ function handleClick() {
     console.info('You clicked a breadcrumb.');
 }
 
-function Cards({ decks, cards, cardSearch, addToDeck, removeFromDeck }) {
+function Cards({ decks, cards, cardSearch, addToDeck, removeFromDeck, size }) {
 
     let [filter, changefilter] = useState('az');
     const sortCards = (change) => {
@@ -57,14 +57,14 @@ function Cards({ decks, cards, cardSearch, addToDeck, removeFromDeck }) {
                             </Link>,
                         </Breadcrumbs>
                     </Stack>
-                    {!showDetail && <CardSearch filter={filter} changefilter={changefilter} sort={sortCards} searchFunc={cardSearch} />}
+                    {!showDetail && <CardSearch filter={filter} changefilter={changefilter} sort={sortCards} searchFunc={cardSearch} size={size} />}
 
                 </div>
 
                 <div className='grid'>
-                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={padding}>
-                        {showDetail && cardToDetail !== null ? <CardDetail data={cardToDetail} /> : _DATA.currentData().map((card, index) => (
-                            <CardSummary key={index} data={card} decks={decks} addToDeck={addToDeck} removeCard={removeFromDeck} gotoDetails={selectDetail} selectCard={selectCardToDetail} />
+                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                        {showDetail && cardToDetail !== null ? <CardDetail data={cardToDetail} size={size} /> : _DATA.currentData().map((card, index) => (
+                            <CardSummary key={index} data={card} decks={decks} addToDeck={addToDeck} removeCard={removeFromDeck} gotoDetails={selectDetail} selectCard={selectCardToDetail} size={size} />
                         ))}
                     </Grid>
                 </div>
@@ -92,10 +92,6 @@ const mainPage = {
 }
 
 
-const padding = {
-    paddingLeft: "10px",
-    // marginBottom: "100px",
-}
 
 const bottom = {
     position: "absolute",

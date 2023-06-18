@@ -4,12 +4,12 @@ import addbutton from '../assets/buttons/addButton.svg'
 import addbuttonSelected from '../assets/buttons/addButtonSelected.svg'
 import AddDeck from './AddDeck'
 
-const DeckSearch = ({ addDeck, searchFunc }) => {
+const DeckSearch = ({ addDeck, searchFunc, size }) => {
     const [addSelected, addFunction] = useState(null)
     return (
         <div style={outside}>
             <div style={searchrow}>
-                <SearchBar search={searchFunc} />
+                <SearchBar search={searchFunc} size={size} />
                 <img src={addSelected ? addbuttonSelected : addbutton} onClick={() => addSelected ? addFunction(false) : addFunction(true)} />
             </div>
             {addSelected && <AddDeck addFunction={addFunction} addDeck={addDeck} />}

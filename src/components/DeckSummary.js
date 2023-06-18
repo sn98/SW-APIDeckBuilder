@@ -5,10 +5,14 @@ import rebel from '../assets/icons/rebelBackground.svg'
 import jedi from '../assets/icons/jediBackground.svg'
 import empire from '../assets/icons/empireBackground.svg'
 import nofaction from '../assets/icons/noFactionBackground.svg'
-const DeckSummary = ({ data, onDelete, showTheCards, setDeckToDetail }) => {
+const DeckSummary = ({ data, onDelete, showTheCards, setDeckToDetail, size }) => {
+
+    const BoxSize = {
+        width: size <= global.width.lowerEnd ? "358px" : "216px",
+    }
     return (
         <div style={padding}>
-            <div className='deck-summary-outline' onClick={() => {
+            <div style={BoxSize} className='deck-summary-outline' onClick={() => {
                 setDeckToDetail(data)
                 showTheCards(true)
             }}>

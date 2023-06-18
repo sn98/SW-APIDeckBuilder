@@ -20,16 +20,29 @@ function handleClick() {
 
 function App() {
   const baseUrl = "https://swapi.dev/api/"
-
   let [showDecks, updateTab = (isDecks) => {
     showDecks = isDecks
   }] = useState(false);
+
+  const [width, setWidth] = useState(window.innerWidth);
+  const [styling, setStyle] = useState(mediumScreenPadding);
 
   useEffect(() => {
     const getCards = async () => {
       setCards(cards = [])
       await fetchAndSetCards(baseUrl + "people/")
     }
+    window.addEventListener("resize", () => {
+      setWidth(window.innerWidth)
+      if (window.innerWidth <= global.width.lowerEnd) {
+        setStyle(smallScreenPadding)
+      } else if (window.innerWidth >= global.width.lowerEnd && window.innerWidth <= global.width.upperEnd) {
+        setStyle(mediumScreenPadding)
+      } else {
+        setStyle(bigScreenPadding)
+      }
+    });
+
     getCards()
   }, [])
 
@@ -169,9 +182,9 @@ function App() {
 
 
   return (
-    <div>
+    <div style={styling}>
       <div className='header-div'>
-        <Header title="SW-API Deck Builder" updateTab={updateTab} showDecks={showDecks} />
+        <Header title="SW-API Deck Builder" updateTab={updateTab} showDecks={showDecks} width={width} />
       </div>
 
       <br />
@@ -183,6 +196,7 @@ function App() {
           addDeck={addDeck}
           removeFromDeck={removeFromDeck}
           addToDeck={addToDeck}
+          size={width}
         /> :
         <Cards
           decks={decks}
@@ -190,6 +204,7 @@ function App() {
           cardSearch={cardSearch}
           addToDeck={addToDeck}
           removeFromDeck={removeFromDeck}
+          size={width}
         />}
       {/* <Stack spacing={2}>
             <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
@@ -233,6 +248,19 @@ const padding = {
 const bottom = {
   position: "absolute",
   bottom: "100px",
+}
+
+const smallScreenPadding = {
+  paddingLeft: "50px",
+  paddingRight: "50px",
+}
+const mediumScreenPadding = {
+  paddingLeft: "120px",
+  paddingRight: "120px",
+}
+const bigScreenPadding = {
+  paddingLeft: "100px",
+  paddingRight: "100px",
 }
 
 export default App;

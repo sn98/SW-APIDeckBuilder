@@ -1,7 +1,8 @@
-import { React } from 'react';
+import { React, useEffect, useState } from 'react';
 import NameTag from './NameTag';
 import card from '../assets/icons/card.svg';
 import deck from '../assets/icons/deck.svg';
+import { grey } from '@mui/material/colors';
 
 const Header = (props) => {
 
@@ -21,7 +22,9 @@ const Header = (props) => {
                         &nbsp;Decks
                     </button>
                 </div>
-                <h4 >{props.title}</h4>
+                {props.width >= global.width.lowerEnd &&
+                    <p><b>SW-</b>API Deck Builder</p>
+                }
                 <NameTag name='Sean Gayle'></NameTag>
 
             </div>
@@ -37,6 +40,19 @@ const line = {
     background: "grey",
     height: "1px",
     border: "none",
+}
+const darkside = {
+    display: "inline-block",
+    margin: "0",
+    fontWeight: "bold",
+    fontSize: "60px",
+}
+const goodside = {
+    display: "inline-block",
+    margin: "0",
+    fontSize: "60px",
+    color: "#B8B8B8"
+
 }
 
 export default Header

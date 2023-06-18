@@ -9,7 +9,15 @@ import noFaction from '../assets/icons/noFaction.svg'
 import SelectDeck from './SelectDeck'
 import CardControls from './CardControls'
 import DeckControls from './DeckControls'
-const CardSummary = ({ data, decks, deck, addToDeck, removeCard, gotoDetails, selectCard, deckCards, showTheCards }) => {
+const CardSummary = ({ data, decks, deck, addToDeck, removeCard, gotoDetails, selectCard, deckCards, showTheCards, size }) => {
+    const TextSize = {
+        width: size <= global.width.lowerEnd ? "326px" : "184px",
+    }
+
+    const BoxSize = {
+        width: size <= global.width.lowerEnd ? "358px" : "216px",
+        height: "282px",
+    }
     const [addSelected, addFunction] = useState(null)
     const addCardToDeck = (id, card) => {
         addToDeck(id, card)
@@ -17,7 +25,7 @@ const CardSummary = ({ data, decks, deck, addToDeck, removeCard, gotoDetails, se
     }
     return (
         <div style={padding}>
-            <div className='card-outline-summary' >
+            <div style={BoxSize} className='card-outline-summary' >
                 <div className='name-frame' >
                     <div style={padding}>
                         <div style={cardControls}>
@@ -39,17 +47,17 @@ const CardSummary = ({ data, decks, deck, addToDeck, removeCard, gotoDetails, se
                     gotoDetails(true)
                 }}>
                     <div>
-                        <div className='card-title-box'>
+                        <div style={TextSize} className='card-title-box'>
                             <div className='name-image'>
                                 <img src={data.gender === 'male' ? male : data.gender === 'female' ? female : noFaction} />
                                 &nbsp;<p className='summary-text-2'>{data.birth}</p>
                             </div>
                             <p className='summary-text-2'>{data.species.length > 0 ? data.species[0] : "None"}</p>
                         </div>
-                        <hr className='card-line' />
+                        <hr style={TextSize} className='card-line' />
                     </div>
-                    <br />
-                    <div className='card-summary-box'>
+                    <p className='space-between-10' />
+                    <div style={TextSize} className='card-summary-box'>
                         <div className='name-image'>
                             <img src={planet} />
                             &nbsp;<p className='summary-text'>HOMEWORLD</p>
@@ -57,7 +65,7 @@ const CardSummary = ({ data, decks, deck, addToDeck, removeCard, gotoDetails, se
                         <p className='summary-text-2'>{data.homeworld}</p>
                     </div>
                     <p className='space-between-10' />
-                    <div className='card-summary-box'>
+                    <div style={TextSize} className='card-summary-box'>
                         <div className='name-image'>
                             <img src={vehicles} />
                             &nbsp;<p className='summary-text'>VEHICLES</p>
@@ -65,7 +73,7 @@ const CardSummary = ({ data, decks, deck, addToDeck, removeCard, gotoDetails, se
                         <p className='summary-text-2'>{data.vehicles.length}</p>
                     </div>
                     <p className='space-between-10' />
-                    <div className='card-summary-box'>
+                    <div style={TextSize} className='card-summary-box'>
                         <div className='name-image'>
                             <img src={starships} />
                             &nbsp;<p className='summary-text'>STARSHIPS</p>

@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchBar from './SearchBar';
 
-const CardSearch = ({ filter, changefilter, sort, searchFunc }) => {
+const CardSearch = ({ filter, changefilter, sort, searchFunc, size }) => {
 
     const az = () => {
         changefilter('az')
@@ -17,7 +17,7 @@ const CardSearch = ({ filter, changefilter, sort, searchFunc }) => {
     }
     return (
         <div style={searchrow}>
-            <SearchBar search={searchFunc} />
+            <SearchBar search={searchFunc} size={size} isDecks={false} />
             <div style={padding}>
                 <button className='iconbtn' onClick={az} style={{ backgroundColor: filter === 'az' ? '#fff' : '#B8B8B8' }}>
                     A to Z
